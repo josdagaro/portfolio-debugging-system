@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-debugging-system",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josdagaro/portfolio-debugging-system.git"
+  },
+  "author": "josdagaro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josdagaro/portfolio-debugging-system/issues"
+  },
+  "homepage": "https://github.com/josdagaro/portfolio-debugging-system#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}
