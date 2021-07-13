@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/josdagaro/portfolio-debugging-system#readme",
   "dependencies": {
-    "request": "^2.88.2"
-  }
+    "puppeteer": "^10.1.0"
+  },
+  "devDependencies": {}
 }
