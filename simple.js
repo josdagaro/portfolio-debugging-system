@@ -40,7 +40,6 @@ async function login(page, simpleConfig) {
   await page.click('#login');
   await page.waitForNavigation();
   await new Promise(resolve => setTimeout(resolve, 1000)).catch();
-  await page._client.send('Emulation.clearDeviceMetricsOverride');
   await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/login.png' });
 }
 
