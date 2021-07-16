@@ -6,7 +6,7 @@ async function run() {
 }
 
 async function main(page) {
-  console.log('Running App Simple...');
+  console.log('Running application Simple...');
   await login(page, config.providers.simple);
 }
 
