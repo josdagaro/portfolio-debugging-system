@@ -9,12 +9,11 @@ const simple = require('./simple');
   app.use(bodyParser.json());
 
   app.post('/person/:nitType/:nit', async (req, res) => {
-    await simple.run();
-    console.log({ reqParams: req.params, body: req.body });
+    await simple.run(req.params, req.body);
     res.json({ reqParams: req.params, body: req.body });
   });
 
   app.listen(port, () => {
-    console.log('Running Portfolio Debugging System (server side)...');
+    console.log('[INFO]: Running Portfolio Debugging System (server side)...');
   });
 })();
