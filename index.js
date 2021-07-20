@@ -14,7 +14,13 @@ const simple = require('./simple');
       console.log('[DEBUG]: Done');
       res.json({ reqParams: req.params, body: req.body }); 
     } catch(exception) {
-      res.status(400).json({ err: exception }); 
+      console.log('[DEBUG]: Something crashes. Check the response');
+
+      if (exception.hasOwnProperty('status') && exception.hasOwnProperty('message')) {
+        res.status(exception.status).json({ err: exception.message });
+      } else {
+        res.status(500).json({ err: exception });
+      }
     }
   });
 

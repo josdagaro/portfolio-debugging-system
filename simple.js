@@ -21,7 +21,7 @@ async function main(page, args) {
   validateMonthDiff(monthDifference);
   page = await login(page, config.providers.simple);
   page = await chooseContributor(page, args);
-  await find(page, args);
+  page = await search(page, args);
 }
 
 async function login(page, simpleConfig) {
@@ -42,7 +42,7 @@ async function login(page, simpleConfig) {
 
   for (let i = 0; i < simpleUserPassword.length; i++) {
     for (let j = 0; j < virtualKeyboardNumbers.length; j++) {
-      value = await page.evaluate(el => el.getAttribute('numbers'), virtualKeyboardNumbers[j]);
+      value = await page.evaluate(elem => elem.getAttribute('numbers'), virtualKeyboardNumbers[j]);
 
       if (simpleUserPassword.charAt(i) == value) {
         await virtualKeyboardNumbers[j].click();
@@ -66,7 +66,7 @@ async function chooseContributor(page, args) {
 
   for (let i = 0; i < contributorsCards.length; i++) {
     contributorInfo = await contributorsCards[i].$$('.cont-info > .data-register');
-    value = await page.evaluate(el => el.textContent, contributorInfo[0]);
+    value = await page.evaluate(elem => elem.textContent, contributorInfo[0]);
     value = value.trim();
     console.log('[DEBUG]: Finding contributor...');
     console.log('[DEBUG]: ', args.params.simple.contributor, ' == ', value, ' | Result: ', args.params.simple.contributor == value);
@@ -85,7 +85,7 @@ async function chooseContributor(page, args) {
   return page;
 }
 
-async function find(page, args) {
+async function search(page, args) {
   let buttonForUpdatingInfo = null;
   let iframe = null;
   let paymentDatesRadioButton = null;
@@ -94,7 +94,7 @@ async function find(page, args) {
   await new Promise(resolve => setTimeout(resolve, 1000)).catch();
   buttonForUpdatingInfo = await page.$$('.modal-footer > .btn.btn-secundary');
   await buttonForUpdatingInfo[0].click();
-  await new Promise(resolve => setTimeout(resolve, 500)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1000)).catch();
   await page.waitForSelector("iframe");
   iframe = await page.$('#iframeApp');
   iframe = await iframe.contentFrame();
@@ -108,11 +108,13 @@ async function find(page, args) {
   console.log('[DEBUG]: Finding person...');
   (await iframe.$('#btnConsultar')).click();
   await new Promise(resolve => setTimeout(resolve, 1000)).catch();
-  await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/find.png' });
+  await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/search.png' });
+  await validateSearch(iframe);
+  return page;
 }
 
 function monthDiff(date1, date2) {
-  let months;
+  let months = null;
   months = (date2.getFullYear() - date1.getFullYear()) * 12;
   months -= date1.getMonth();
   months += date2.getMonth();
@@ -129,7 +131,26 @@ function convertStringToDate(date) {
 
 function validateMonthDiff(monthDiff) {
   if (monthDiff > 12) {
-    throw 'El rango de fechas debe ser inferior a 12 meses';
+    throw {
+      message: 'El rango de fechas debe ser inferior a 12 meses',
+      status: 400,
+    };
+  }
+}
+
+async function validateSearch(iframe) {
+  let errorMessageElement = await iframe.$('#errorMessage');
+  console.log('[DEBUG]: Validating search...');
+
+  if (errorMessageElement != null) {
+    console.log('[DEBUG]: Person NOT found!');
+
+    throw {
+      message: 'Person not found',
+      status: 404,
+    };
+  } else {
+    console.log('[DEBUG]: Person found!');
   }
 }
 
