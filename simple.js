@@ -10,33 +10,18 @@ async function run(person, params) {
 }
 
 async function main(page, args) {
-  let response = null;
+  let monthDifference = null;
+  console.log('[INFO]: Running application Simple...');
 
-  try {
-    let monthDifference = null;
-    console.log('[INFO]: Running application Simple...');
+  monthDifference = monthDiff(
+    convertStringToDate(args.params.search.dates.from),
+    convertStringToDate(args.params.search.dates.to)
+  );
 
-    monthDifference = monthDiff(
-      convertStringToDate(args.params.search.dates.from),
-      convertStringToDate(args.params.search.dates.to)
-    );
-
-    validateMonthDiff(monthDifference);
-    page = await login(page, config.providers.simple);
-    page = await chooseContributor(page, args);
-    page = await search(page, args);
-  } catch (exception) {
-    if (exception.hasOwnProperty('status') && exception.hasOwnProperty('message')) {
-      response = exception;
-    } else {
-      response = {
-        status: 500,
-        message: exception,
-      }
-    }
-  }
-
-  return response;
+  validateMonthDiff(monthDifference);
+  page = await login(page, config.providers.simple);
+  page = await chooseContributor(page, args);
+  page = await search(page, args);
 }
 
 async function login(page, simpleConfig) {
@@ -84,10 +69,10 @@ async function chooseContributor(page, args) {
     value = await page.evaluate(elem => elem.textContent, contributorInfo[0]);
     value = value.trim();
     console.log('[DEBUG]: Finding contributor...');
-    console.log('[DEBUG]: ', args.params.simple.contributor, ' == ', value, ' | Result: ', args.params.simple.contributor == value);
+    console.log('[DEBUG]:', args.params.contributor, '==', value, '| Result:', args.params.contributor == value);
 
-    if (args.params.simple.contributor == value) {
-      console.log('[DEBUG]: Found: ', args.params.simple.contributor);
+    if (args.params.contributor == value) {
+      console.log('[DEBUG]: Found:', args.params.contributor);
       contributorImg = await contributorsCards[i].$$('.cont-image > img');
       await contributorImg[0].click();
       break;
@@ -133,14 +118,14 @@ function monthDiff(date1, date2) {
   months = (date2.getFullYear() - date1.getFullYear()) * 12;
   months -= date1.getMonth();
   months += date2.getMonth();
-  console.log('[DEBUG]: Month difference between dates: ', months);
+  console.log('[DEBUG]: Month difference between dates:', months);
   return months <= 0 ? 0 : months;
 }
 
 function convertStringToDate(date) {
   let dateParts = date.split('/');
   let formatedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-  console.log('[DEBUG]: Formated date: ', formatedDate);
+  console.log('[DEBUG]: Formated date:', formatedDate);
   return new Date(formatedDate);
 }
 
@@ -154,16 +139,24 @@ function validateMonthDiff(monthDiff) {
 }
 
 async function validateSearch(iframe) {
-  let errorMessageElement = await iframe.$('#errorMessage');
+  let errorDialogElement = await iframe.$('#errorDialog.ui-dialog-content.ui-widget-content');
+  let errorDialogElementStyle = null;
   console.log('[DEBUG]: Validating search...');
 
-  if (errorMessageElement != null) {
-    console.log('[DEBUG]: Person NOT found!');
+  if (errorDialogElement != null) {
+    errorDialogElementStyle = await iframe.evaluate(elem => elem.getAttribute('style'), errorDialogElement);
+    console.log('[DEBUG]: Error dialog element style:', errorDialogElementStyle);
 
-    throw {
-      message: 'Person not found',
-      status: 404,
-    };
+    if (errorDialogElementStyle != 'display: none;') {
+      console.log('[DEBUG]: Person NOT found!');
+
+      throw {
+        message: 'Person not found',
+        status: 404,
+      };
+    } else {
+      console.log('[DEBUG]: Person found!');
+    }
   } else {
     console.log('[DEBUG]: Person found!');
   }

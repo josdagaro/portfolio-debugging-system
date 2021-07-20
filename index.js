@@ -8,30 +8,21 @@ const simple = require('./simple');
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  app.post('/person/:nitType/:nit', async (req, res) => {
-    let simpleResponse = null;
-
+  app.post('/simple/person/:nitType/:nit', async (req, res) => {
     try {
-      simpleResponse = await simple.run(req.params, req.body);
-
-      if (!simpleResponse.hasOwnProperty('status') || !simpleResponse.hasOwnProperty('message')) {
-        throw simpleResponse;
-      }
-
-      console.log('[DEBUG]: Done');
-
-      res.json({
-        simple: simpleResponse,
-      });
+      await simple.run(req.params, req.body);
+      res.json({ message: 'OK' });
     } catch (exception) {
-      console.log('[DEBUG]: Something crashes. Check the response');
-
       if (exception.hasOwnProperty('status') && exception.hasOwnProperty('message')) {
         res.status(exception.status).json({ err: exception.message });
       } else {
-        res.status(500).json({ err: exception });
+        console.log('[DEBUG]: Something crashes.');
+        console.log('[ERROR]: ', exception);
+        res.status(500).json({ err: exception.message });
       }
     }
+
+    console.log('[DEBUG]: Done');
   });
 
   app.listen(port, () => {
