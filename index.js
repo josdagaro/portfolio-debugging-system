@@ -9,11 +9,21 @@ const simple = require('./simple');
   app.use(bodyParser.json());
 
   app.post('/person/:nitType/:nit', async (req, res) => {
+    let simpleResponse = null;
+
     try {
-      await simple.run(req.params, req.body);
+      simpleResponse = await simple.run(req.params, req.body);
+
+      if (!simpleResponse.hasOwnProperty('status') || !simpleResponse.hasOwnProperty('message')) {
+        throw simpleResponse;
+      }
+
       console.log('[DEBUG]: Done');
-      res.json({ reqParams: req.params, body: req.body }); 
-    } catch(exception) {
+
+      res.json({
+        simple: simpleResponse,
+      });
+    } catch (exception) {
       console.log('[DEBUG]: Something crashes. Check the response');
 
       if (exception.hasOwnProperty('status') && exception.hasOwnProperty('message')) {

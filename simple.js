@@ -2,7 +2,7 @@ const boot = require('./boot');
 const config = require('./config');
 
 async function run(person, params) {
-  await boot.run(
+  return await boot.run(
     config.defaults.puppeteerArgs,
     { person: person, params: params },
     main
@@ -10,18 +10,33 @@ async function run(person, params) {
 }
 
 async function main(page, args) {
-  let monthDifference = null;
-  console.log('[INFO]: Running application Simple...');
+  let response = null;
 
-  monthDifference = monthDiff(
-    convertStringToDate(args.params.search.dates.from),
-    convertStringToDate(args.params.search.dates.to)
-  );
+  try {
+    let monthDifference = null;
+    console.log('[INFO]: Running application Simple...');
 
-  validateMonthDiff(monthDifference);
-  page = await login(page, config.providers.simple);
-  page = await chooseContributor(page, args);
-  page = await search(page, args);
+    monthDifference = monthDiff(
+      convertStringToDate(args.params.search.dates.from),
+      convertStringToDate(args.params.search.dates.to)
+    );
+
+    validateMonthDiff(monthDifference);
+    page = await login(page, config.providers.simple);
+    page = await chooseContributor(page, args);
+    page = await search(page, args);
+  } catch (exception) {
+    if (exception.hasOwnProperty('status') && exception.hasOwnProperty('message')) {
+      response = exception;
+    } else {
+      response = {
+        status: 500,
+        message: exception,
+      }
+    }
+  }
+
+  return response;
 }
 
 async function login(page, simpleConfig) {
