@@ -9,8 +9,13 @@ const simple = require('./simple');
   app.use(bodyParser.json());
 
   app.post('/person/:nitType/:nit', async (req, res) => {
-    await simple.run(req.params, req.body);
-    res.json({ reqParams: req.params, body: req.body });
+    try {
+      await simple.run(req.params, req.body);
+      console.log('[DEBUG]: Done');
+      res.json({ reqParams: req.params, body: req.body }); 
+    } catch(exception) {
+      res.status(400).json({ err: exception }); 
+    }
   });
 
   app.listen(port, () => {

@@ -10,7 +10,15 @@ async function run(person, params) {
 }
 
 async function main(page, args) {
+  let monthDifference = null;
   console.log('[INFO]: Running application Simple...');
+
+  monthDifference = monthDiff(
+    convertStringToDate(args.params.search.dates.from),
+    convertStringToDate(args.params.search.dates.to)
+  );
+
+  validateMonthDiff(monthDifference);
   page = await login(page, config.providers.simple);
   page = await chooseContributor(page, args);
   await find(page, args);
@@ -78,14 +86,51 @@ async function chooseContributor(page, args) {
 }
 
 async function find(page, args) {
+  let buttonForUpdatingInfo = null;
+  let iframe = null;
+  let paymentDatesRadioButton = null;
   await page.click('#link_informe_individual');
   await page.waitForNavigation();
   await new Promise(resolve => setTimeout(resolve, 1000)).catch();
-  await page.$$('.modal-content > app-rs1608 > modal-footer > .btn-secundary')[0].click();
-  await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/search.png' });
+  buttonForUpdatingInfo = await page.$$('.modal-footer > .btn.btn-secundary');
+  await buttonForUpdatingInfo[0].click();
+  await new Promise(resolve => setTimeout(resolve, 500)).catch();
+  await page.waitForSelector("iframe");
+  iframe = await page.$('#iframeApp');
+  iframe = await iframe.contentFrame();
+  await iframe.waitForSelector('input[value="RANGO_FECHAS"]');
+  paymentDatesRadioButton = await iframe.$('input[value="RANGO_FECHAS"]');
+  await paymentDatesRadioButton.click();
+  await iframe.$eval('#tx_fechaInicial\\:textoFecha', (elem, args) => elem.value = args.params.search.dates.from, args);
+  await iframe.$eval('#tx_fechaFinal\\:textoFecha', (elem, args) => elem.value = args.params.search.dates.to, args);
+  await iframe.select('#tipoDocumentoCotizante', args.person.nitType);
+  await iframe.$eval('#inputNroDocCotizante', (elem, args) => elem.value = args.person.nit, args);
+  console.log('[DEBUG]: Finding person...');
+  (await iframe.$('#btnConsultar')).click();
+  await new Promise(resolve => setTimeout(resolve, 1000)).catch();
+  await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/find.png' });
+}
+
+function monthDiff(date1, date2) {
+  let months;
+  months = (date2.getFullYear() - date1.getFullYear()) * 12;
+  months -= date1.getMonth();
+  months += date2.getMonth();
+  console.log('[DEBUG]: Month difference between dates: ', months);
+  return months <= 0 ? 0 : months;
+}
+
+function convertStringToDate(date) {
+  let dateParts = date.split('/');
+  let formatedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+  console.log('[DEBUG]: Formated date: ', formatedDate);
+  return new Date(formatedDate);
+}
+
+function validateMonthDiff(monthDiff) {
+  if (monthDiff > 12) {
+    throw 'El rango de fechas debe ser inferior a 12 meses';
+  }
 }
 
 exports.run = run;
-
-
-// Rango de busquea no puede ser superior a 12 meses
