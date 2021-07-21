@@ -164,22 +164,21 @@ async function validateSearch(iframe) {
 }
 
 async function downloadPdfs(page, downloadsPath) {
-  let paidSpreedSheetsElementsLists = null;
+  let paidSpreedSheetsElementsListLength = 0;
   await page.waitForSelector("iframe");
   iframe = await page.$('#iframeApp');
   iframe = await iframe.contentFrame();
-  paidSpreedSheetsElementsLists = await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage');
+  paidSpreedSheetsElementsListLength = (await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage')).length;
 
   await page._client.send('Page.setDownloadBehavior', {
     behavior: 'allow',
     downloadPath: downloadsPath + '/simple',
   });
 
-  for (let i = 0; i < paidSpreedSheetsElementsLists.length; i++) {
+  for (let i = 0; i < paidSpreedSheetsElementsListLength; i++) {
     let pdfButtons = await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage');
     console.log('Downloading PDF number:', i + 1);
     await pdfButtons[i].click();
-    console.log('Click', i + 1);
     await new Promise(resolve => setTimeout(resolve, 3000)).catch();
   }
 
