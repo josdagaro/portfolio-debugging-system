@@ -22,10 +22,11 @@ async function main(page, args) {
   page = await login(page, config.providers.simple);
   page = await chooseContributor(page, args);
   page = await search(page, args);
+  page = await downloadPdfs(page, config.defaults.downloadsPath);
 }
 
 async function login(page, simpleConfig) {
-  await page.goto(simpleConfig.urls.login);
+  await page.goto(simpleConfig.urls.login, { timeout: 60000 });
   await page.waitForSelector('#nro-doc-login');
   await page.focus('#nro-doc-login');
 
@@ -160,6 +161,29 @@ async function validateSearch(iframe) {
   } else {
     console.log('[DEBUG]: Person found!');
   }
+}
+
+async function downloadPdfs(page, downloadsPath) {
+  let paidSpreedSheetsElementsLists = null;
+  await page.waitForSelector("iframe");
+  iframe = await page.$('#iframeApp');
+  iframe = await iframe.contentFrame();
+  paidSpreedSheetsElementsLists = await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage');
+
+  await page._client.send('Page.setDownloadBehavior', {
+    behavior: 'allow',
+    downloadPath: downloadsPath + '/simple',
+  });
+
+  for (let i = 0; i < paidSpreedSheetsElementsLists.length; i++) {
+    let pdfButtons = await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage');
+    console.log('Downloading PDF number:', i + 1);
+    await pdfButtons[i].click();
+    console.log('Click', i + 1);
+    await new Promise(resolve => setTimeout(resolve, 3000)).catch();
+  }
+
+  return page;
 }
 
 exports.run = run;

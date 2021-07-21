@@ -6,7 +6,8 @@ exports.defaults = {
     '--disable-setuid-sandbox',
     '--window-size=1920,1080',
   ],
-  screenShotsPath: process.env.SCREENSHOTS_PATH
+  screenShotsPath: process.env.SCREENSHOTS_PATH,
+  downloadsPath: process.env.DOWNLOADS_PATH,
 }
 
 exports.providers = {
