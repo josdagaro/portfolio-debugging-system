@@ -1,11 +1,10 @@
 <html>
-
 <head>
   <title>Sistema de Depuración de Catera</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
-
 <body>
   <header>
   </header>
@@ -15,25 +14,51 @@
       <div class="col-sm my-auto">
         <div class="card">
           <article class="card-body">
-            <a href="" class="float-right btn btn-outline-primary">Sign up</a>
-            <h4 class="card-title mb-4 mt-1">Sign in</h4>
+            <a href="" class="float-right btn btn-outline-primary">Configurar</a>
+            <h4 class="card-title mb-4 mt-1">Búsqueda</h4>
             <form>
               <div class="form-group">
-                <label>Your email</label>
-                <input name="" class="form-control" placeholder="Email" type="email">
+                <label>Tipo de documento:</label>
+                <select class="form-control" name="nit-type">
+                  <option>Cédula de ciudadanía</option>
+                  <option>Cédula de extranjería</option>
+                  <option>Pasaporte</option>
+                  <option>Tarjeta de identidad</option>
+                  <option>Registro civil</option>
+                  <option>Carné diplomático</option>
+                  <option>Salvoconducto de permanencia</option>
+                  <option>Permiso especial de permanencia</option>
+                </select>
               </div> <!-- form-group// -->
               <div class="form-group">
-                <a class="float-right" href="#">Forgot?</a>
-                <label>Your password</label>
-                <input class="form-control" placeholder="******" type="password">
+                <label>Número de documento:</label>
+                <input class="form-control" type="text" name="nit">
               </div> <!-- form-group// -->
               <div class="form-group">
                 <div class="checkbox">
-                  <label> <input type="checkbox"> Save password </label>
+                  <label> <input type="checkbox"> Buscar por periodo </label>
                 </div> <!-- checkbox .// -->
               </div> <!-- form-group// -->
               <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Login </button>
+                <label>Fecha desde:</label>
+                <div class="input-group date" data-provide="datepicker">
+                  <input type="text" name="date-from" class="form-control">
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+              </div>
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <label>Fecha hasta:</label>
+                <div class="input-group date" data-provide="datepicker">
+                  <input type="text" name="date-to" class="form-control">
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+              </div>
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Buscar </button>
               </div> <!-- form-group// -->
             </form>
           </article>
@@ -51,6 +76,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </body>
-
 </html>
