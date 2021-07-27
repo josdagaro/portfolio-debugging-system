@@ -19,15 +19,15 @@
             <form>
               <div class="form-group">
                 <label>Tipo de documento:</label>
-                <select class="form-control" name="nit-type">
-                  <option>Cédula de ciudadanía</option>
-                  <option>Cédula de extranjería</option>
-                  <option>Pasaporte</option>
-                  <option>Tarjeta de identidad</option>
-                  <option>Registro civil</option>
-                  <option>Carné diplomático</option>
-                  <option>Salvoconducto de permanencia</option>
-                  <option>Permiso especial de permanencia</option>
+                <select class="form-control" name="nitType">
+                  <option value="CC">Cédula de ciudadanía</option>
+                  <option value="CE">Cédula de extranjería</option>
+                  <option value="PA">Pasaporte</option>
+                  <option value="TI">Tarjeta de identidad</option>
+                  <option value="RC">Registro civil</option>
+                  <option value="CD">Carné diplomático</option>
+                  <option value="SC">Salvoconducto de permanencia</option>
+                  <option value="PE">Permiso especial de permanencia</option>
                 </select>
               </div> <!-- form-group// -->
               <div class="form-group">
@@ -36,7 +36,7 @@
               </div> <!-- form-group// -->
               <div class="form-group">
                 <div class="checkbox">
-                  <label> <input type="checkbox"> Buscar por periodo </label>
+                  <label> <input type="checkbox" name="findByDates"> Buscar por periodo </label>
                 </div> <!-- checkbox .// -->
               </div> <!-- form-group// -->
               <div class="form-group">
