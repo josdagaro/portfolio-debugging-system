@@ -5,6 +5,8 @@ let dateFrom = null;
 let dateTo = null;
 const SIMPLE_URL_FOR_SEARCHING = 'http://localhost:3000/simple/person/:NIT_TYPE/:NIT';
 
+$("#loader").hide();
+
 $('#searchButton').click(function () {
   nitType = $('#nitTypeDropdown').find(":selected").val();
   nit = $('input[name=nit]').val();
@@ -29,6 +31,8 @@ $('#searchButton').click(function () {
       dateTo,
     });
 
+    $("#loader").show();
+
     fetch(simpleUrlForSearching, {
       method: 'POST',
       mode: 'cors',
@@ -49,8 +53,10 @@ $('#searchButton').click(function () {
       console.log('Waiting response');
       return response.json();
     }).then(data => {
+      $("#loader").hide();
       console.log('Success:', data);
     }).catch((error) => {
+      $("#loader").hide();
       console.error('Error:', error);
       alert('Ups, ¡ocurrió un error!');
     });
