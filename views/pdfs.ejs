@@ -7,11 +7,11 @@
 <body>
   <div class="container">
     <div class="jumbotron">
-      <h3>Documentos PDFs encontrados (<%= platform %>)</h3>
+      <h3>Documentos PDFs encontrados (<%= platform1 %>)</h3>
       <p>A continuación se encuentra a su disposición una lista de PDFs encontrados:</p>
     </div>
     <div class="row">
-      <% pdfFiles.map(file=> { %>
+      <% simplePdfFiles.map(file=> { %>
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
@@ -25,12 +25,16 @@
         </div>
         <% }) %>
       </div>
+      <div class="jumbotron">
+        <h3>Documentos PDFs encontrados (<%= platform2 %>)</h3>
+        <p>A continuación se encuentra a su disposición una lista de PDFs encontrados:</p>
+      </div>
   </div>
-  <section>
+  <!-- <section>
     <% if((typeof(file) !=='undefined' )) { %>
       <embed src="<%= file.url %>" width="500" height="646">
       <% } %>
-  </section>
+  </section> -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

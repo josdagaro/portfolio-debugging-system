@@ -48,3 +48,16 @@ exports.extractFilesNames = (files) => {
 
   return filesNames;
 }
+
+exports.deleteFiles = (scope, files) => {
+  const pdfsDirPath = path.join(__dirname, config.defaults.downloadsPath + `/${scope}`);
+  console.log('[INFO]: Cleaning PDFs');
+
+  for (let i = 0; i < files.length; i++) {
+    fs.unlink(pdfsDirPath + `/${files[i]}.pdf`, function (err) {
+      if (err) {
+        throw err
+      }
+    })
+  }
+}

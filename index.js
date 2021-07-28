@@ -22,18 +22,23 @@ const path = require("path");
     res.render("index");
   });
 
-  app.get("/simple/file/:file", (req, res) => {
-    let pdfFiles = [];
-    pdfFiles = global.refreshFiles('simple');
-    pdfFiles = global.filterFiles(pdfFiles);
-    pdfFiles = pdfFiles.length > 0 ? pdfFiles : [];
-    const file = pdfFiles.length > 0 ? pdfFiles.find(f => f.name === req.params.file) : "";
-    res.render("pdfs", { pdfFiles, file, platform: 'Simple' });
+  app.get("/files", (req, res) => {
+    let simplePdfFiles = [];
+    simplePdfFiles = global.refreshFiles('simple');
+    simplePdfFiles = global.filterFiles(simplePdfFiles);
+    simplePdfFiles = simplePdfFiles.length > 0 ? simplePdfFiles : [];
+    aportesPdfFiles = global.refreshFiles('aportes');
+    aportesPdfFiles = global.filterFiles(aportesPdfFiles);
+    aportesPdfFiles = aportesPdfFiles.length > 0 ? aportesPdfFiles : [];
+    res.render("pdfs", { simplePdfFiles, aportesPdfFiles, platform1: 'Simple', platform2: 'Aportes en Linea' });
   });
 
   app.post('/simple/person/:nitType/:nit', async (req, res) => {
     try {
       let pdfFiles = [];
+      pdfFiles = global.refreshFiles('simple');
+      pdfFiles = global.filterFiles(pdfFiles);
+      global.deleteFiles('simple', global.extractFilesNames(pdfFiles));
       await simple.run(req.params, req.body);
       pdfFiles = global.refreshFiles('simple');
       pdfFiles = global.filterFiles(pdfFiles);

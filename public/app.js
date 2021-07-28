@@ -55,10 +55,10 @@ $('#searchButton').click(function () {
       console.log('Waiting response');
       return response.json();
     }).then(data => {
-      console.log('Success:', data);
+      console.log('Simple Success:', data);
       return data;
     }).catch((error) => {
-      console.error('Error:', error);
+      console.error('Simple Error:', error);
       return error;
     })]).then(values => {
       console.log('All promises values:', values);
