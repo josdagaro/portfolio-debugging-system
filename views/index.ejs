@@ -4,6 +4,14 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <style>
+    hr {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -11,31 +19,35 @@
   <div class="container">
     <div class="row h-100">
       <div class="col-sm"></div>
-      <div class="col-sm my-auto">
+      <div class="col-sm-6 my-auto">
         <div class="card">
           <article class="card-body">
             <button href="" class="float-right btn btn-outline-primary" id="confButton">Configurar</button>
             <h4 class="card-title mb-4 mt-1">Búsqueda</h4>
             <form>
-              <div class="form-group">
-                <label>Tipo de documento:</label>
-                <select class="form-control" name="nitType" id="nitTypeDropdown">
-                  <option value="CC">Cédula de ciudadanía</option>
-                  <option value="CE">Cédula de extranjería</option>
-                  <option value="PA">Pasaporte</option>
-                  <option value="TI">Tarjeta de identidad</option>
-                  <option value="RC">Registro civil</option>
-                  <option value="CD">Carné diplomático</option>
-                  <option value="SC">Salvoconducto de permanencia</option>
-                  <option value="PE">Permiso especial de permanencia</option>
-                </select>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <label>Tipo de documento:</label>
+                  <select class="form-control" name="nitType" id="nitTypeDropdown">
+                    <option value="CC">Cédula de ciudadanía</option>
+                    <option value="CE">Cédula de extranjería</option>
+                    <option value="PA">Pasaporte</option>
+                    <option value="TI">Tarjeta de identidad</option>
+                    <option value="RC">Registro civil</option>
+                    <option value="CD">Carné diplomático</option>
+                    <option value="SC">Salvoconducto de permanencia</option>
+                    <option value="PE">Permiso especial de permanencia</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <label>Número de documento:</label>
+                  <input class="form-control" type="text" name="nit">
+                </div>
               </div> <!-- form-group// -->
+              <hr/>
+              <h5 class="card-title mb-4 mt-1">Simple</h5>
               <div class="form-group">
-                <label>Número de documento:</label>
-                <input class="form-control" type="text" name="nit">
-              </div> <!-- form-group// -->
-              <div class="form-group">
-                <label>Simple | Contribuyente:</label>
+                <label>Contribuyente:</label>
                 <select class="form-control" name="simpleContributor" id="simpleContributorDropdown">
                   <option value="NI 800162612">Acciones y Servicios SAS</option>
                   <option value="NI 805022756">Acción del Cauca SAS</option>
@@ -48,23 +60,35 @@
                   <label> <input type="checkbox" name="findByDates"> Buscar por periodo </label>
                 </div> <!-- checkbox .// -->
               </div> <!-- form-group// -->
-              <div class="form-group">
-                <label>Fecha desde:</label>
-                <div class="input-group date" data-provide="datepicker">
-                  <input type="text" name="date-from" class="form-control">
-                  <div class="input-group-addon">
-                      <span class="glyphicon glyphicon-th"></span>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <label>Fecha desde:</label>
+                  <div class="input-group date" data-provide="datepicker">
+                    <input type="text" name="date-from" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
                   </div>
-              </div>
+                </div>
+                <div class="col-sm-6">
+                  <label>Fecha hasta:</label>
+                  <div class="input-group date" data-provide="datepicker">
+                    <input type="text" name="date-to" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                  </div>
+                </div>
               </div> <!-- form-group// -->
               <div class="form-group">
-                <label>Fecha hasta:</label>
-                <div class="input-group date" data-provide="datepicker">
-                  <input type="text" name="date-to" class="form-control">
-                  <div class="input-group-addon">
-                      <span class="glyphicon glyphicon-th"></span>
-                  </div>
-              </div>
+              </div> <!-- form-group// -->
+              <hr/>
+              <h5 class="card-title mb-4 mt-1">Aportes en Línea</h5>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <label>Año:</label>
+                  <input class="form-control" type="number" name="al-year">
+                </div>
               </div> <!-- form-group// -->
               <div class="form-group">
                 <button type="button" class="btn btn-primary btn-block" id="searchButton">
