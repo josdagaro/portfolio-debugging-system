@@ -35,7 +35,7 @@ $('#searchButton').click(function () {
     $('#searchButton').attr('disabled', true);
     $('#confButton').attr('disabled', true);
 
-    fetch(simpleUrlForSearching, {
+    Promise.all([fetch(simpleUrlForSearching, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -55,16 +55,16 @@ $('#searchButton').click(function () {
       console.log('Waiting response');
       return response.json();
     }).then(data => {
-      $("#loader").hide();
-      $('#searchButton').attr('disabled', false);
-      $('#confButton').attr('disabled', false);
       console.log('Success:', data);
+      return data;
     }).catch((error) => {
+      console.error('Error:', error);
+      return error;
+    })]).then(values => {
+      console.log('All promises values:', values);
       $("#loader").hide();
       $('#searchButton').attr('disabled', false);
       $('#confButton').attr('disabled', false);
-      console.error('Error:', error);
-      alert('Simple: ups, ¡ocurrió un error!');
     });
   }
 });
