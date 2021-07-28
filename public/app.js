@@ -4,6 +4,7 @@ let simpleContributor = null;
 let dateFrom = null;
 let dateTo = null;
 const SIMPLE_URL_FOR_SEARCHING = 'http://localhost:3000/simple/person/:NIT_TYPE/:NIT';
+const URL_FOR_DOWNLOADED_FILES = 'http://localhost:3000/files';
 
 $("#loader").hide();
 
@@ -65,6 +66,7 @@ $('#searchButton').click(function () {
       $("#loader").hide();
       $('#searchButton').attr('disabled', false);
       $('#confButton').attr('disabled', false);
+      window.open(URL_FOR_DOWNLOADED_FILES, '_blank').focus();
     });
   }
 });
