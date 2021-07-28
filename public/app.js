@@ -32,6 +32,8 @@ $('#searchButton').click(function () {
     });
 
     $("#loader").show();
+    $('#searchButton').attr('disabled', true);
+    $('#confButton').attr('disabled', true);
 
     fetch(simpleUrlForSearching, {
       method: 'POST',
@@ -54,11 +56,15 @@ $('#searchButton').click(function () {
       return response.json();
     }).then(data => {
       $("#loader").hide();
+      $('#searchButton').attr('disabled', false);
+      $('#confButton').attr('disabled', false);
       console.log('Success:', data);
     }).catch((error) => {
       $("#loader").hide();
+      $('#searchButton').attr('disabled', false);
+      $('#confButton').attr('disabled', false);
       console.error('Error:', error);
-      alert('Ups, ¡ocurrió un error!');
+      alert('Simple: ups, ¡ocurrió un error!');
     });
   }
 });
