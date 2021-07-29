@@ -67,7 +67,8 @@ $('#searchButton').click(function () {
       $('#searchButton').attr('disabled', false);
       $('#confButton').attr('disabled', false);
       let simpleResultIsValid = values[0].hasOwnProperty('message') && values[0].message === 'OK' && values[0].hasOwnProperty('data') && values[0].data.hasOwnProperty('pdfs') && values[0].data.pdfs.length > 0;
-      let soiResultIsValid = values[1].hasOwnProperty('message') && values[1].message === 'OK' && values[1].hasOwnProperty('data') && values[1].data.hasOwnProperty('pdfs') && values[1].data.pdfs.length > 0;
+      // let soiResultIsValid = values[1].hasOwnProperty('message') && values[1].message === 'OK' && values[1].hasOwnProperty('data') && values[1].data.hasOwnProperty('pdfs') && values[1].data.pdfs.length > 0;
+      let soiResultIsValid = false;
 
       if (simpleResultIsValid || soiResultIsValid) {
         window.open(URL_FOR_DOWNLOADED_FILES, '_blank').focus();
