@@ -10,8 +10,8 @@ async function run(person, params) {
 }
 
 async function main(page, args) {
-  console.log('[INFO]: Running application Aportes...');
-  page = await login(page, config.providers.simple);
+  console.log('[INFO]: Running application SOI...');
+  page = await login(page, config.providers.soi);
   page = await chooseContributor(page, args);
   page = await search(page, args);
   page = await downloadPdfs(page, config.defaults.downloadsPath);

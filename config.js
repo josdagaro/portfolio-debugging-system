@@ -22,15 +22,15 @@ exports.providers = {
       nitType: process.env.SIMPLE_USER_NIT_TYPE
     }
   },
-  aportes: {
+  soi: {
     urls: {
-      login: process.env.APORTES_LOGIN_URL
+      login: process.env.SOI_LOGIN_URL
     },
     user: {
-      name: process.env.APORTES_USER_NAME,
-      pass: process.env.APORTES_USER_PASSWORD,
-      nit: process.env.APORTES_USER_NIT,
-      nitType: process.env.APORTES_USER_NIT_TYPE,
+      name: process.env.SOI_USER_NAME,
+      pass: process.env.SOI_USER_PASSWORD,
+      nit: process.env.SOI_USER_NIT,
+      nitType: process.env.SOI_USER_NIT_TYPE,
     }
   },
 };

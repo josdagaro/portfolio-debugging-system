@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const simple = require('./simple');
-const aportes = require('./aportes');
+const soi = require('./soi');
 const global = require('./global');
 const ejs = require("ejs");
 const path = require("path");
@@ -28,10 +28,10 @@ const path = require("path");
     simplePdfFiles = global.refreshFiles('simple');
     simplePdfFiles = global.filterFiles(simplePdfFiles);
     simplePdfFiles = simplePdfFiles.length > 0 ? simplePdfFiles : [];
-    aportesPdfFiles = global.refreshFiles('aportes');
-    aportesPdfFiles = global.filterFiles(aportesPdfFiles);
-    aportesPdfFiles = aportesPdfFiles.length > 0 ? aportesPdfFiles : [];
-    res.render("pdfs", { simplePdfFiles, aportesPdfFiles, platform1: 'Simple', platform2: 'Aportes en Linea' });
+    soiPdfFiles = global.refreshFiles('soi');
+    soiPdfFiles = global.filterFiles(soiPdfFiles);
+    soiPdfFiles = soiPdfFiles.length > 0 ? soiPdfFiles : [];
+    res.render("pdfs", { simplePdfFiles, soiPdfFiles, platform1: 'Simple', platform2: 'SOI' });
   });
 
   app.post('/simple/person/:nitType/:nit', async (req, res) => {
@@ -63,14 +63,14 @@ const path = require("path");
     console.log('[DEBUG]: Done');
   });
 
-  app.post('/aportes/person/:nitType/:nit', async (req, res) => {
+  app.post('/soi/person/:nitType/:nit', async (req, res) => {
     try {
       let pdfFiles = [];
-      pdfFiles = global.refreshFiles('aportes');
+      pdfFiles = global.refreshFiles('soi');
       pdfFiles = global.filterFiles(pdfFiles);
-      global.deleteFiles('aportes', global.extractFilesNames(pdfFiles));
-      await aportes.run(req.params, req.body);
-      pdfFiles = global.refreshFiles('aportes');
+      global.deleteFiles('soi', global.extractFilesNames(pdfFiles));
+      await soi.run(req.params, req.body);
+      pdfFiles = global.refreshFiles('soi');
       pdfFiles = global.filterFiles(pdfFiles);
 
       res.json({
