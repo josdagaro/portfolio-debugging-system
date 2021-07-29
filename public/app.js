@@ -66,7 +66,14 @@ $('#searchButton').click(function () {
       $("#loader").hide();
       $('#searchButton').attr('disabled', false);
       $('#confButton').attr('disabled', false);
-      window.open(URL_FOR_DOWNLOADED_FILES, '_blank').focus();
+      let simpleResultIsValid = values[0].hasOwnProperty('message') && values[0].message === 'OK' && values[0].hasOwnProperty('data') && values[0].data.hasOwnProperty('pdfs') && values[0].data.pdfs.length > 0;
+      let aportesResultIsValid = values[1].hasOwnProperty('message') && values[1].message === 'OK' && values[1].hasOwnProperty('data') && values[1].data.hasOwnProperty('pdfs') && values[1].data.pdfs.length > 0;
+
+      if (simpleResultIsValid || aportesResultIsValid) {
+        window.open(URL_FOR_DOWNLOADED_FILES, '_blank').focus();
+      } else {
+        alert('No se encontró el usuario para las fechas/año seleccionado');
+      }
     });
   }
 });

@@ -11,7 +11,7 @@ exports.defaults = {
 }
 
 exports.providers = {
-  simple: simpleConfig = {
+  simple: {
     urls: {
       login: process.env.SIMPLE_LOGIN_URL
     },
@@ -20,6 +20,17 @@ exports.providers = {
       pass: process.env.SIMPLE_USER_PASSWORD,
       nit: process.env.SIMPLE_USER_NIT,
       nitType: process.env.SIMPLE_USER_NIT_TYPE
+    }
+  },
+  aportes: {
+    urls: {
+      login: process.env.APORTES_LOGIN_URL
+    },
+    user: {
+      name: process.env.APORTES_USER_NAME,
+      pass: process.env.APORTES_USER_PASSWORD,
+      nit: process.env.APORTES_USER_NIT,
+      nitType: process.env.APORTES_USER_NIT_TYPE,
     }
   },
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const simple = require('./simple');
+const aportes = require('./aportes');
 const global = require('./global');
 const ejs = require("ejs");
 const path = require("path");
@@ -41,6 +42,35 @@ const path = require("path");
       global.deleteFiles('simple', global.extractFilesNames(pdfFiles));
       await simple.run(req.params, req.body);
       pdfFiles = global.refreshFiles('simple');
+      pdfFiles = global.filterFiles(pdfFiles);
+
+      res.json({
+        message: 'OK',
+        data: {
+          pdfs: global.extractFilesNames(pdfFiles)
+        }
+      });
+    } catch (exception) {
+      if (exception.hasOwnProperty('status') && exception.hasOwnProperty('message')) {
+        res.status(exception.status).json({ err: exception.message });
+      } else {
+        console.log('[DEBUG]: Something crashes.');
+        console.log('[ERROR]: ', exception);
+        res.status(500).json({ err: exception.message });
+      }
+    }
+
+    console.log('[DEBUG]: Done');
+  });
+
+  app.post('/aportes/person/:nitType/:nit', async (req, res) => {
+    try {
+      let pdfFiles = [];
+      pdfFiles = global.refreshFiles('aportes');
+      pdfFiles = global.filterFiles(pdfFiles);
+      global.deleteFiles('aportes', global.extractFilesNames(pdfFiles));
+      await aportes.run(req.params, req.body);
+      pdfFiles = global.refreshFiles('aportes');
       pdfFiles = global.filterFiles(pdfFiles);
 
       res.json({
