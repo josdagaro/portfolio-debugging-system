@@ -11,7 +11,7 @@ async function run(person, params) {
 
 async function main(page, args) {
   let monthDifference = null;
-  console.log('[INFO]: Running application Simple...');
+  console.log('[INFO][SIMPLE]: Running application Simple...');
 
   monthDifference = monthDiff(
     convertStringToDate(args.params.search.dates.from),
@@ -69,11 +69,11 @@ async function chooseContributor(page, args) {
     contributorInfo = await contributorsCards[i].$$('.cont-info > .data-register');
     value = await page.evaluate(elem => elem.textContent, contributorInfo[0]);
     value = value.trim();
-    console.log('[DEBUG]: Finding contributor...');
-    console.log('[DEBUG]:', args.params.contributor, '==', value, '| Result:', args.params.contributor == value);
+    console.log('[DEBUG][SIMPLE]: Finding contributor...');
+    console.log('[DEBUG][SIMPLE]:', args.params.contributor, '==', value, '| Result:', args.params.contributor == value);
 
     if (args.params.contributor == value) {
-      console.log('[DEBUG]: Found:', args.params.contributor);
+      console.log('[DEBUG][SIMPLE]: Found:', args.params.contributor);
       contributorImg = await contributorsCards[i].$$('.cont-image > img');
       await contributorImg[0].click();
       break;
@@ -106,7 +106,7 @@ async function search(page, args) {
   await iframe.$eval('#tx_fechaFinal\\:textoFecha', (elem, args) => elem.value = args.params.search.dates.to, args);
   await iframe.select('#tipoDocumentoCotizante', args.person.nitType);
   await iframe.$eval('#inputNroDocCotizante', (elem, args) => elem.value = args.person.nit, args);
-  console.log('[DEBUG]: Finding person...');
+  console.log('[DEBUG][SIMPLE]: Finding person...');
   (await iframe.$('#btnConsultar')).click();
   await new Promise(resolve => setTimeout(resolve, 1000)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/search.png' });
@@ -119,14 +119,14 @@ function monthDiff(date1, date2) {
   months = (date2.getFullYear() - date1.getFullYear()) * 12;
   months -= date1.getMonth();
   months += date2.getMonth();
-  console.log('[DEBUG]: Month difference between dates:', months);
+  console.log('[DEBUG][SIMPLE]: Month difference between dates:', months);
   return months <= 0 ? 0 : months;
 }
 
 function convertStringToDate(date) {
   let dateParts = date.split('/');
   let formatedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-  console.log('[DEBUG]: Formated date:', formatedDate);
+  console.log('[DEBUG][SIMPLE]: Formated date:', formatedDate);
   return new Date(formatedDate);
 }
 
@@ -142,24 +142,24 @@ function validateMonthDiff(monthDiff) {
 async function validateSearch(iframe) {
   let errorDialogElement = await iframe.$('#errorDialog.ui-dialog-content.ui-widget-content');
   let errorDialogElementStyle = null;
-  console.log('[DEBUG]: Validating search...');
+  console.log('[DEBUG][SIMPLE]: Validating search...');
 
   if (errorDialogElement != null) {
     errorDialogElementStyle = await iframe.evaluate(elem => elem.getAttribute('style'), errorDialogElement);
-    console.log('[DEBUG]: Error dialog element style:', errorDialogElementStyle);
+    console.log('[DEBUG][SIMPLE]: Error dialog element style:', errorDialogElementStyle);
 
     if (errorDialogElementStyle != 'display: none;') {
-      console.log('[DEBUG]: Person NOT found!');
+      console.log('[DEBUG][SIMPLE]: Person NOT found!');
 
       throw {
         message: 'Person not found',
         status: 404,
       };
     } else {
-      console.log('[DEBUG]: Person found!');
+      console.log('[DEBUG][SIMPLE]: Person found!');
     }
   } else {
-    console.log('[DEBUG]: Person found!');
+    console.log('[DEBUG][SIMPLE]: Person found!');
   }
 }
 
@@ -177,9 +177,9 @@ async function downloadPdfs(page, downloadsPath) {
 
   for (let i = 0; i < paidSpreedSheetsElementsListLength; i++) {
     let pdfButtons = await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage');
-    console.log('Downloading PDF number:', i + 1);
+    console.log('[DEBUG][SIMPLE]: Downloading PDF number:', i + 1);
     await pdfButtons[i].click();
-    await new Promise(resolve => setTimeout(resolve, 3500)).catch();
+    await new Promise(resolve => setTimeout(resolve, 3200)).catch();
   }
 
   return page;

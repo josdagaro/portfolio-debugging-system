@@ -33,7 +33,7 @@ exports.refreshFiles = (scope) => {
 
   return fs.readdirSync(pdfsDirPath).map(name => {
     return {
-      name: path.basename(name, ".pdf"),
+      name: path.basename(name, '.pdf'),
       url: `/${scope}/${name}`
     };
   });
@@ -54,10 +54,15 @@ exports.deleteFiles = (scope, files) => {
   console.log('[INFO]: Cleaning PDFs');
 
   for (let i = 0; i < files.length; i++) {
-    fs.unlink(pdfsDirPath + `/${files[i]}.pdf`, function (err) {
+    fs.unlink(pdfsDirPath + `/${files[i]}${files[i].includes('ReporteDePago.Por.Cotizantes') ? '' : '.pdf'}`, function (err) {
       if (err) {
-        throw err
+        // When it fails, it tries again assuming the file type is a PDF (before it was a ZIP with the same name)
+        fs.unlink(pdfsDirPath + `/${files[i]}.pdf`, function (err2) {
+          if (err2) {
+            throw err2;
+          }
+        });
       }
-    })
+    });
   }
 }
