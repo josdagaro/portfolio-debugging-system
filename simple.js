@@ -92,7 +92,7 @@ async function search(page, args) {
   let paymentDatesRadioButton = null;
   await page.click('#link_informe_individual');
   await page.waitForNavigation();
-  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
+  await new Promise(resolve => setTimeout(resolve, 2000)).catch();
   buttonForUpdatingInfo = await page.$$('.modal-footer > .btn.btn-secundary');
   await buttonForUpdatingInfo[0].click();
   await new Promise(resolve => setTimeout(resolve, 1500)).catch();
