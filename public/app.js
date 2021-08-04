@@ -3,9 +3,9 @@ let nit = null;
 let simpleContributor = null;
 let dateFrom = null;
 let dateTo = null;
-const SIMPLE_URL_FOR_SEARCHING = 'http://54.225.94.35:3000/simple/person/:NIT_TYPE/:NIT';
-const SOI_URL_FOR_SEARCHING = 'http://54.225.94.35:3000/soi/person/:NIT_TYPE/:NIT';
-const URL_FOR_DOWNLOADED_FILES = 'http://54.225.94.35:3000/files';
+const SIMPLE_URL_FOR_SEARCHING = 'http://54.225.94.35:80/simple/person/:NIT_TYPE/:NIT';
+const SOI_URL_FOR_SEARCHING = 'http://54.225.94.35:80/soi/person/:NIT_TYPE/:NIT';
+const URL_FOR_DOWNLOADED_FILES = 'http://54.225.94.35:80/files';
 
 $("#loader").hide();
 
