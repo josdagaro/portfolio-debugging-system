@@ -116,7 +116,7 @@ async function downloadPdfs(page, downloadsPath) {
     let pdfButtons = await page.$$('td > table > tbody > tr > td.textoNota > img[title="Descargar Soporte"]');
     console.log('[DEBUG][SOI]: Downloading PDF number:', i + 1);
     await pdfButtons[i].click();
-    await new Promise(resolve => setTimeout(resolve, 3200)).catch();
+    await new Promise(resolve => setTimeout(resolve, 4000)).catch();
   }
 
   await extractZipFile('soi', downloadsPath);

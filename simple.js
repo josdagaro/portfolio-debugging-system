@@ -179,7 +179,7 @@ async function downloadPdfs(page, downloadsPath) {
     let pdfButtons = await iframe.$$('#listaPlanillasPagadas > tbody > tr > td > input.borderImage');
     console.log('[DEBUG][SIMPLE]: Downloading PDF number:', i + 1);
     await pdfButtons[i].click();
-    await new Promise(resolve => setTimeout(resolve, 3200)).catch();
+    await new Promise(resolve => setTimeout(resolve, 4000)).catch();
   }
 
   return page;
