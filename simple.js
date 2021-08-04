@@ -95,7 +95,7 @@ async function search(page, args) {
   await new Promise(resolve => setTimeout(resolve, 2000)).catch();
   buttonForUpdatingInfo = await page.$$('.modal-footer > .btn.btn-secundary');
 
-  if (buttonForUpdatingInfo) {
+  if (buttonForUpdatingInfo && buttonForUpdatingInfo.length > 0) {
     await buttonForUpdatingInfo[0].click();
   } else {
     console.log('[DEBUG][SIMPLE]: The button is undefined:', buttonForUpdatingInfo);
