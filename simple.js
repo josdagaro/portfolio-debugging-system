@@ -94,7 +94,13 @@ async function search(page, args) {
   await page.waitForNavigation();
   await new Promise(resolve => setTimeout(resolve, 2000)).catch();
   buttonForUpdatingInfo = await page.$$('.modal-footer > .btn.btn-secundary');
-  await buttonForUpdatingInfo[0].click();
+
+  if (buttonForUpdatingInfo) {
+    await buttonForUpdatingInfo[0].click();
+  } else {
+    console.log('[DEBUG][SIMPLE]: The button is undefined:', buttonForUpdatingInfo);
+  }
+
   await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.waitForSelector("iframe");
   iframe = await page.$('#iframeApp');
