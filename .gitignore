@@ -104,3 +104,4 @@ dist
 .tern-port
 *.png
 public/*/*
+!public/*/.gitkeep
