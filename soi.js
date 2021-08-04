@@ -43,7 +43,7 @@ async function login(page, soiConfig, args) {
   // Login
   console.log('[DEBUG][SOI]: Login');
   await page.click('input[value=Ingresar].botton');
-  await new Promise(resolve => setTimeout(resolve, 1000)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/soi/login.png' });
   return page;
 }
@@ -53,7 +53,7 @@ async function search(page, args) {
   let radioButtons = null;
   console.log('[DEBUG][SOI]: Start search');
   await page.click('#opcion0');
-  await new Promise(resolve => setTimeout(resolve, 500)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
   subMenuOptions = await page.$$('td.menuSubNivel');
   console.log('[DEBUG][SOI]: Found sub menu options:', subMenuOptions.length);
 
@@ -82,10 +82,10 @@ async function search(page, args) {
     }
   }
 
-  await new Promise(resolve => setTimeout(resolve, 300)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/soi/search-1.png' });
   await page.click('#siguiente1');
-  await new Promise(resolve => setTimeout(resolve, 1000)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/soi/search-2.png' });
   await page.select('#tipoIdentificacion', extractNitTypeValue(args.person.nitType) + ',' + args.person.nitType);
   await page.focus('#numeroIdentificacion');
@@ -93,10 +93,10 @@ async function search(page, args) {
   await page.select('#tipoPlanilla', '1,E');
   await page.click('input[name=addOne]');
   await page.select('select[name=annio]', args.params.search.dates.year.toString());
-  await new Promise(resolve => setTimeout(resolve, 1000)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/soi/search-3.png' });
   await page.click('input[name=ingresar]');
-  await new Promise(resolve => setTimeout(resolve, 1000)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/soi/search-4.png' });
   return page;
 }
