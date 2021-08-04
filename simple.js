@@ -34,7 +34,7 @@ async function login(page, simpleConfig) {
   await page.keyboard.type(simpleConfig.user.nit);
   await page.select('#doc-types', simpleConfig.user.nitType);
   await page.click('#login-continue');
-  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
 
   // Fill password
   await page.waitForSelector('#pass-login');
@@ -55,7 +55,7 @@ async function login(page, simpleConfig) {
   // Login
   await page.click('#login');
   await page.waitForNavigation();
-  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/login.png' });
   return page;
 }
@@ -81,7 +81,7 @@ async function chooseContributor(page, args) {
   }
 
   await page.waitForNavigation();
-  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/contributor.png' });
   return page;
 }
@@ -92,10 +92,10 @@ async function search(page, args) {
   let paymentDatesRadioButton = null;
   await page.click('#link_informe_individual');
   await page.waitForNavigation();
-  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   buttonForUpdatingInfo = await page.$$('.modal-footer > .btn.btn-secundary');
   await buttonForUpdatingInfo[0].click();
-  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.waitForSelector("iframe");
   iframe = await page.$('#iframeApp');
   iframe = await iframe.contentFrame();
@@ -108,7 +108,7 @@ async function search(page, args) {
   await iframe.$eval('#inputNroDocCotizante', (elem, args) => elem.value = args.person.nit, args);
   console.log('[DEBUG][SIMPLE]: Finding person...');
   (await iframe.$('#btnConsultar')).click();
-  await new Promise(resolve => setTimeout(resolve, 1200)).catch();
+  await new Promise(resolve => setTimeout(resolve, 1500)).catch();
   await page.screenshot({ path: config.defaults.screenShotsPath + '/simple/search.png' });
   await validateSearch(iframe);
   return page;
